@@ -75,7 +75,7 @@ const eventos = [
     title: "Festa dos Alunos 2025",
     date: "18/05",
     time: "19:00",
-    location: "Área Esportiva do Inatel",
+    location: "Área Esportiva",
     type: "cultural",
     description:
       "Venha comemorar a melhor Festa dos Alunos de todos os tempos!",
@@ -115,9 +115,6 @@ function createCards() {
   });
 }
 
-// Inicializando
-createCards();
-
 // Controle do carrossel
 let index = 0;
 function nextCard() {
@@ -138,18 +135,8 @@ function updateCarousel() {
 document.getElementById("nextBtn").addEventListener("click", nextCard);
 document.getElementById("prevBtn").addEventListener("click", prevCard);
 
-// Controle automático
-let autoSlide = setInterval(nextCard, 5000);
-
-// Pausar ao passar o mouse sobre um card
-carousel.addEventListener("mouseenter", () => {
-  clearInterval(autoSlide);
-});
-
-// Retomar ao sair com o mouse
-carousel.addEventListener("mouseleave", () => {
-  autoSlide = setInterval(nextCard, 5000);
-});
+// Auto avanço a cada 5 segundos
+setInterval(nextCard, 5000);
 
 // Arrastar no celular
 let startX;
@@ -161,3 +148,157 @@ carousel.addEventListener("touchend", (e) => {
   if (startX - endX > 50) nextCard();
   if (endX - startX > 50) prevCard();
 });
+
+// Inicializando
+createCards();
+
+// Componente Aulas ----------------------------------------------------------------------------------
+
+class AulasComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" }); // Cria o Shadow DOM
+    this.aulas = [
+      {
+        id: 1,
+        disciplina: "S05 - Interface Homem-máquina",
+        data: "ter",
+        horario: "10:00",
+        local: "P1-S17",
+        prova_alert: false,
+        prova: "12/05",
+        frequencia: "10/25",
+        nota: "10",
+      },
+      {
+        id: 2,
+        disciplina: "E01 - Circuitos Elétricos em Corrente Contínua",
+        data: "ter",
+        horario: "10:00",
+        local: "P1-S17",
+        prova_alert: true,
+        prova: "12/05",
+        frequencia: "10/25",
+        nota: "5",
+      },
+      {
+        id: 3,
+        disciplina: "M02 - Álgebra e Geometria Analítica",
+        data: "qua",
+        horario: "10:00",
+        local: "P1-S17",
+        prova_alert: true,
+        prova: "12/05",
+        frequencia: "10/25",
+        nota: "7",
+      },
+    ];
+    this.hoje = "ter"; // Dia atual
+  }
+
+  connectedCallback() {
+    this.render(); // Renderiza o componente
+  }
+
+  getNotaColor(nota) {
+    const valorNota = parseFloat(nota);
+    if (valorNota < 6) return "#dc3545"; // Vermelho
+    if (valorNota < 8) return "#ffc107"; // Amarelo
+    return "#28a745"; // Verde
+  }
+
+  render() {
+    const aulasDia = this.aulas.filter((a) => a.data === this.hoje);
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          --cor-text: black;
+          --prova: #126ae2;
+          --frequencia: #126ae2;
+        }
+
+        .comp-aula {
+          position: relative;
+          background-color: white;
+          top: 0;
+          left: 0;
+          right: 0;
+          padding: 15px;
+          margin: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .titulo_aula {
+          font-family: "Arimo", sans-serif;
+          font-weight: bold;
+          font-size: 15px;
+          color: var(--cor-text);
+          padding: 0 5px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        p {
+          font-family: "Arimo", sans-serif;
+          font-weight: 400;
+          font-size: 11px;
+          color: var(--cor-text);
+          line-height: 1.5;
+          padding: 0 5px;
+        }
+
+        .lables {
+          display: flex;
+          margin-top: 10px;
+        }
+
+        .lable-prova,
+        .lable-frequencia,
+        .lable-nota {
+          padding: 7px 15px;
+          margin-right: 10px;
+          border-radius: 500px;
+          text-align: center;
+          color: white;
+          font-family: "Arimo", sans-serif;
+          font-weight: 400;
+          font-size: 11px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .lable-prova { background-color: var(--prova); }
+        .lable-frequencia { background-color: var(--frequencia); }
+        .lable-nota { background-color: var(--nota); }
+
+        .hidden { display: none; }
+      </style>
+
+      <div>
+        ${aulasDia
+          .map((a) => {
+            const provaClass = a.prova_alert ? "" : "hidden";
+            const corDaNota = this.getNotaColor(a.nota);
+            return `
+            <div class="comp-aula" style="--nota: ${corDaNota};">
+              
+              <div class="titulo_aula">${a.disciplina}</div>
+              <p>Local e Horário: <b>${a.local} - ${a.horario}</b></p>
+              <div class="lables">
+                <div class="lable-frequencia">FALTAS: <b>${a.frequencia}</b></div>
+                <div class="lable-nota">CR: <b>${a.nota}</b></div>
+              </div>
+            </div>
+          `;
+          })
+          .join("")}
+      </div>
+    `;
+  }
+}
+
+// Registrar o componente
+customElements.define("aulas-component", AulasComponent);
