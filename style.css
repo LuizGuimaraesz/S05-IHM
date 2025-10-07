@@ -172,7 +172,7 @@ header {
 
 .carousel {
   display: flex;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease-in-out;
 }
 
 .card {

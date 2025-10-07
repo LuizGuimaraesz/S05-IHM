@@ -117,3 +117,47 @@ function createCards() {
 
 // Inicializando
 createCards();
+
+// Controle do carrossel
+let index = 0;
+function nextCard() {
+  index = (index + 1) % eventos.length;
+  updateCarousel();
+}
+
+function prevCard() {
+  index = (index - 1 + eventos.length) % eventos.length;
+  updateCarousel();
+}
+
+function updateCarousel() {
+  carousel.style.transform = `translateX(-${index * 100}%)`;
+}
+
+// Adicionando interatividade
+document.getElementById("nextBtn").addEventListener("click", nextCard);
+document.getElementById("prevBtn").addEventListener("click", prevCard);
+
+// Controle automático
+let autoSlide = setInterval(nextCard, 5000);
+
+// Pausar ao passar o mouse sobre um card
+carousel.addEventListener("mouseenter", () => {
+  clearInterval(autoSlide);
+});
+
+// Retomar ao sair com o mouse
+carousel.addEventListener("mouseleave", () => {
+  autoSlide = setInterval(nextCard, 5000);
+});
+
+// Arrastar no celular
+let startX;
+carousel.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+carousel.addEventListener("touchend", (e) => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) nextCard();
+  if (endX - startX > 50) prevCard();
+});
