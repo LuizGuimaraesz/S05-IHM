@@ -305,14 +305,28 @@ customElements.define("aulas-component", AulasComponent);
 
 function open_tela() {
   const tela = document.getElementById("tela_monitor");
+  const main = document.getElementsByTagName("main")[0];
+
   tela.classList.remove("hidden");
 
-  document.body.classList.add("body_block"); // bloqueia fundo
+  // Adiciona blur ao fundo e bloqueia interações
+  document.body.classList.add("blur-fundo");
+  main.classList.add("disabled_scroll");
+
+  // Bloqueia scroll da página
+  document.body.style.overflow = "hidden";
 }
 
 function close_tela() {
   const tela = document.getElementById("tela_monitor");
+  const main = document.getElementsByTagName("main")[0];
+
   tela.classList.add("hidden");
 
-  document.body.classList.remove("body_block"); // libera fundo
+  // Remove blur e desbloqueia interações
+  document.body.classList.remove("blur-fundo");
+  main.classList.remove("disabled_scroll");
+
+  // Libera scroll da página
+  document.body.style.overflow = "auto";
 }
