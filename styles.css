@@ -295,3 +295,89 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Fundo escuro desfocado */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Esconder modal */
+.hidden {
+  display: none !important;
+}
+
+/* Caixa central */
+.modal-content {
+  width: 70%;
+  max-width: 500px;
+  height: 650px;
+  background: var(--cor-back1);
+  border-radius: 30px;
+  padding: 20px 25px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+#title-monitor {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: var(--md-sys-color-on-primary-container);
+}
+
+/* Botão de fechar */
+.fechar {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 22px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.monitores-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card-monitor {
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  transform-origin: center; /* garante que o crescimento seja centralizado */
+  outline: 2px solid transparent; /* para evitar movimento do layout */
+}
+
+.card-monitor:hover {
+  background-color: #f3f6fb; /* fundo levemente azulado */
+  transform: scale(1.01); /* crescimento sutil */
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2); /* sombra mais pronunciada */
+  outline-color: #007bff; /* borda azul sem mover o layout */
+}
+
+.card-monitor h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--nota);
+}
+
+.card-monitor p {
+  margin: 4px 0;
+  font-size: 14px;
+}

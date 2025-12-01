@@ -302,3 +302,17 @@ class AulasComponent extends HTMLElement {
 
 // Registrar o componente
 customElements.define("aulas-component", AulasComponent);
+
+function open_tela() {
+  const tela = document.getElementById("tela_monitor");
+  tela.classList.remove("hidden");
+
+  document.body.classList.add("body_block"); // bloqueia fundo
+}
+
+function close_tela() {
+  const tela = document.getElementById("tela_monitor");
+  tela.classList.add("hidden");
+
+  document.body.classList.remove("body_block"); // libera fundo
+}
