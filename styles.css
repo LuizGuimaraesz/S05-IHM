@@ -320,7 +320,7 @@ button {
 .modal-content {
   width: 70%;
   max-width: 500px;
-  height: 650px;
+  height: auto;
   background: var(--cor-back1);
   border-radius: 30px;
   padding: 20px 8px 20px 15px;
