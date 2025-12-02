@@ -320,13 +320,14 @@ button {
 .modal-content {
   width: 70%;
   max-width: 500px;
-  height: auto;
   background: var(--cor-back1);
   border-radius: 30px;
   padding: 20px 8px 20px 15px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
   position: relative;
   pointer-events: all;
+  max-height: 90vh;
+  overflow: hidden; /* evita que coisas vazem para fora */
 }
 
 #title-monitor {
@@ -352,10 +353,12 @@ button {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  max-height: 550px; /* altura máxima do container */
-  overflow-y: auto; /* habilita scroll vertical */
+  height: 60vh;
+  max-height: calc(90vh - 120px); /* sempre cabe no modal */
+  overflow-y: auto;
   padding-top: 5px;
-  padding-right: 15px; /* para não cortar a scrollbar */
+  padding-right: 24px;
+
   padding-left: 10px;
   padding-bottom: 18px;
 }
@@ -393,4 +396,9 @@ button {
 .disabled_scroll {
   pointer-events: none; /* bloqueia cliques */
   user-select: none; /* bloqueia seleção de texto */
+}
+
+.monitores-lista::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 4px;
 }
